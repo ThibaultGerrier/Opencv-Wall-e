@@ -9,8 +9,42 @@ public class robotMove implements Runnable {
 
 	@Override
 	public void run() {
-		ballFinder();
+		//ballFinder();
 		// turnTracking(360);
+		try {
+			localize();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void localize() throws InterruptedException{
+		while(true){
+			for(int i=0;i<4;i++){
+//				System.out.println("blo " + i + " " + ColorBlobDetectionActivity.mDetectorList.get(i).getCoordinates());
+				ColorBlobDetectionActivity.mDetectorList.get(i).resetCoordinates();
+				System.out.println("blo size  " + ColorBlobDetectionActivity.mDetectorList.get(i).getCoordinates().size());
+				for(int j=0;j<ColorBlobDetectionActivity.mDetectorList.get(i).getCoordinates().size();j++){	
+					System.out.println("blo " + j + " " + ColorBlobDetectionActivity.mDetectorList.get(i).getCoordinates().get(j));
+//					Mat src = new Mat(1, 1, CvType.CV_32FC2);
+//					Mat dest = new Mat(1, 1, CvType.CV_32FC2);
+//					src.put(0,
+//							0,
+//							new double[] {
+//									ColorBlobDetectionActivity.mDetectorList.get(i)
+//											.getCoordinates().get(j).x,
+//									ColorBlobDetectionActivity.mDetectorList.get(i)
+//											.getCoordinates().get(j).y });
+//					Core.perspectiveTransform(src, dest,
+//							ColorBlobDetectionActivity.homographyMat); 
+//	
+//					Point dest_point = new Point(dest.get(0, 0)[0], dest.get(0, 0)[1]);
+				}
+				//System.out.println("blo coords " + i + " x " + dest_point.x + " y " + dest_point.y);
+			}
+			Thread.sleep(500);
+		}
 	}
 
 	public void ballFinder() {
@@ -87,17 +121,17 @@ public class robotMove implements Runnable {
 
 			Mat src = new Mat(1, 1, CvType.CV_32FC2);
 			Mat dest = new Mat(1, 1, CvType.CV_32FC2);
-			src.put(0,
-					0,
-					new double[] {
-							ColorBlobDetectionActivity.mDetector
-									.getCoordinates().x,
-							ColorBlobDetectionActivity.mDetector
-									.getCoordinates().y }); // ps
-															// is
-															// a
-															// point
-															// in
+//					src.put(0,
+//					0,
+//					new double[] {
+//							ColorBlobDetectionActivity.mDetector
+//									.getCoordinates().x,
+//							ColorBlobDetectionActivity.mDetector
+//									.getCoordinates().y }); // ps
+//															// is
+//															// a
+//															// point
+//															// in
 			// image coordinates
 			Core.perspectiveTransform(src, dest,
 					ColorBlobDetectionActivity.homographyMat); // homography is

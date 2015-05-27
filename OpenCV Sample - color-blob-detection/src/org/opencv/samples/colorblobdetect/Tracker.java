@@ -20,7 +20,7 @@ public class Tracker implements Runnable{
 			}
 			if (isStarted && mDetector.getCoordinates() != null) {
 				System.out.println("Color: " + mDetector.getCoordinates());
-				coordinates = mDetector.getCoordinates();
+				//coordinates = mDetector.getCoordinates();
 //				mDetector.resetCoordinates();
 			}
 		}

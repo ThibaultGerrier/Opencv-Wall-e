@@ -22,7 +22,7 @@ public class ColorBlobDetector {
     private Scalar mColorRadius = new Scalar(25,50,50,0);
     private Mat mSpectrum = new Mat();
     private List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
-    private Point coordinates = new Point();
+    private List<Point> coordinates = new ArrayList<Point>();	//average of Points in ColorBlob
 
     // Cache
     Mat mPyrDownMat = new Mat();
@@ -95,6 +95,7 @@ public class ColorBlobDetector {
         // Filter contours by area and resize to fit the original image size
         mContours.clear();
         each = contours.iterator();
+        int j =0;
         while (each.hasNext()) {
             MatOfPoint contour = each.next();
             if (Imgproc.contourArea(contour) > mMinContourArea*maxArea) {
@@ -103,25 +104,25 @@ public class ColorBlobDetector {
                 mContours.add(contour);
             }
             Point [] temp = contour.toArray(); 
-            double max = temp[0].y;
-            int pos = 0;
-            for (int i = 0; i <= temp.length-1; i++) {
-            	if(temp[i].y > max) {
-            		max = temp[i].y;
-            		pos = i;
-            	}
+
+            int sumX=0;
+            int sumY=0;
+            for (int i = 0; i < temp.length; i++) {
+            	sumX+= temp[i].x;
+            	sumY+= temp[i].y;
 			}
-            	coordinates = temp[pos];
-           
+            coordinates.get(j).x=sumX/temp.length;
+            coordinates.get(j).y=sumY/temp.length;
+            j++;
         }
     }
     
-    public Point getCoordinates() {
+    public List<Point> getCoordinates() {
     	return coordinates;
     }
 
     public void resetCoordinates() {
-		this.coordinates = null;
+		this.coordinates = new ArrayList<Point>();
 	}
 
 	public List<MatOfPoint> getContours() {
